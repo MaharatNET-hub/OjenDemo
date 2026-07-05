@@ -10,7 +10,7 @@ export type Dimension =
 
 export interface DimensionMeta {
   key: Dimension
-  label: string
+  labelKey: string
   icon: string
   /** 'higher-better' metrics are healthier the higher they score; 'lower-better' metrics (like stress) are healthier the lower they score. */
   direction: 'higher-better' | 'lower-better'

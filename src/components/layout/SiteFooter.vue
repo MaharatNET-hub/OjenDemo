@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue'
+import { useLocaleStore } from '@/stores/locale'
+
+const locale = useLocaleStore()
 </script>
 
 <template>
@@ -10,21 +13,21 @@ import Icon from '@/components/Icon.vue'
       </div>
 
       <div class="text-center">
-        <p class="text-ojen-gold text-xs tracking-widest mb-2">LEGAL</p>
+        <p class="text-ojen-gold text-xs tracking-widest mb-2">{{ locale.t('footer.legal') }}</p>
         <div class="flex items-center gap-3 text-sm text-ojen-muted">
-          <a href="#" class="hover:text-ojen-text">Privacy Policy</a>
+          <a href="#" class="hover:text-ojen-text">{{ locale.t('footer.privacyPolicy') }}</a>
           <span>·</span>
-          <a href="#" class="hover:text-ojen-text">Terms of Use</a>
+          <a href="#" class="hover:text-ojen-text">{{ locale.t('footer.termsOfUse') }}</a>
         </div>
       </div>
 
-      <div class="text-sm space-y-2">
+      <div class="text-sm space-y-2" dir="ltr">
         <p class="flex items-center gap-2"><Icon name="phone" class="w-4 h-4 text-ojen-gold" /> 00971553033998</p>
         <p class="flex items-center gap-2"><Icon name="mail" class="w-4 h-4 text-ojen-gold" /> Info@theojen.com</p>
       </div>
     </div>
     <p class="text-center text-xs text-ojen-muted pb-6">
-      Copyright © 2026 <span class="text-ojen-gold">Ojen</span>
+      {{ locale.t('footer.copyright') }} <span class="text-ojen-gold">Ojen</span>
     </p>
   </footer>
 </template>

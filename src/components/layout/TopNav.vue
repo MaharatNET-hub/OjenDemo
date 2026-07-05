@@ -3,15 +3,11 @@ import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import Icon from '@/components/Icon.vue'
 import { useQlStore } from '@/stores/ql'
+import { useLocaleStore } from '@/stores/locale'
 
 const emit = defineEmits<{ 'toggle-sidebar': [] }>()
 const ql = useQlStore()
-
-const isRtl = ref(document.documentElement.dir === 'rtl')
-function toggleLang() {
-  isRtl.value = !isRtl.value
-  document.documentElement.dir = isRtl.value ? 'rtl' : 'ltr'
-}
+const locale = useLocaleStore()
 
 const showNotifications = ref(false)
 const pendingCount = computed(() => ql.invitations.filter((i) => i.status === 'pending').length)
@@ -27,22 +23,22 @@ const pendingCount = computed(() => ql.invitations.filter((i) => i.status === 'p
       </RouterLink>
 
       <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-ojen-text/90">
-        <a href="#" class="hover:text-ojen-gold transition">WHO WE ARE</a>
-        <a href="#" class="hover:text-ojen-gold transition">WHAT WE DO</a>
-        <a href="#" class="hover:text-ojen-gold transition">BLOG</a>
-        <a href="#" class="hover:text-ojen-gold transition">LET'S CONNECT</a>
+        <a href="#" class="hover:text-ojen-gold transition">{{ locale.t('nav.whoWeAre') }}</a>
+        <a href="#" class="hover:text-ojen-gold transition">{{ locale.t('nav.whatWeDo') }}</a>
+        <a href="#" class="hover:text-ojen-gold transition">{{ locale.t('nav.blog') }}</a>
+        <a href="#" class="hover:text-ojen-gold transition">{{ locale.t('nav.letsConnect') }}</a>
       </nav>
 
       <div class="flex items-center gap-2 sm:gap-3">
         <button
           class="hidden sm:flex w-9 h-9 items-center justify-center rounded-full border border-ojen-border text-xs font-semibold hover:border-ojen-gold"
-          @click="toggleLang"
+          @click="locale.toggleLocale"
         >
-          {{ isRtl ? 'EN' : 'AR' }}
+          {{ locale.locale === 'ar' ? 'EN' : 'AR' }}
         </button>
 
         <button
-          class="flex items-center gap-2 rounded-full border border-ojen-border pl-1 pr-3 py-1 hover:border-ojen-gold transition"
+          class="flex items-center gap-2 rounded-full border border-ojen-border ps-1 pe-3 py-1 hover:border-ojen-gold transition"
           @click="emit('toggle-sidebar')"
         >
           <span class="w-7 h-7 rounded-full bg-ojen-gold/20 flex items-center justify-center">
@@ -59,32 +55,32 @@ const pendingCount = computed(() => ql.invitations.filter((i) => i.status === 'p
             <Icon name="bell" class="w-4 h-4" />
             <span
               v-if="pendingCount > 0"
-              class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-[10px] leading-4 text-white text-center"
+              class="absolute -top-1 -end-1 w-4 h-4 rounded-full bg-red-500 text-[10px] leading-4 text-white text-center"
             >
               {{ pendingCount }}
             </span>
           </button>
           <div
             v-if="showNotifications"
-            class="absolute right-0 mt-2 w-72 rounded-lg border border-ojen-border bg-ojen-panel shadow-xl p-3 text-sm"
+            class="absolute end-0 mt-2 w-72 rounded-lg border border-ojen-border bg-ojen-panel shadow-xl p-3 text-sm text-start"
           >
-            <p class="font-semibold mb-2">Notifications</p>
-            <p v-if="pendingCount === 0" class="text-ojen-muted">No pending items.</p>
+            <p class="font-semibold mb-2">{{ locale.t('nav.notifications') }}</p>
+            <p v-if="pendingCount === 0" class="text-ojen-muted">{{ locale.t('nav.noPending') }}</p>
             <ul v-else class="space-y-2">
               <li
                 v-for="inv in ql.invitations.filter((i) => i.status === 'pending')"
                 :key="inv.id"
                 class="text-ojen-muted"
               >
-                Pulse survey pending from <span class="text-ojen-text">{{ inv.email }}</span>
+                {{ locale.t('nav.pulseSurveyPendingFrom') }} <span class="text-ojen-text">{{ inv.email }}</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div class="hidden md:flex flex-col items-start rounded-full border border-ojen-border px-3 py-1.5 text-xs">
-          <span class="text-ojen-muted">Need help? Call us:</span>
-          <span class="font-semibold">00971553033998</span>
+          <span class="text-ojen-muted">{{ locale.t('nav.needHelp') }}</span>
+          <span class="font-semibold" dir="ltr">00971553033998</span>
         </div>
       </div>
     </div>
