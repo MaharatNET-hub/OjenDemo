@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
+import { useAnimatedNumber } from '@/composables/useAnimatedNumber'
 
 const props = defineProps<{ score: number; locked?: boolean }>()
 
-const clamped = computed(() => Math.max(0, Math.min(100, props.score)))
+const animatedScore = useAnimatedNumber(toRef(props, 'score'), 1300)
+const clamped = computed(() => Math.max(0, Math.min(100, animatedScore.value)))
 const angleDeg = computed(() => 180 - (clamped.value / 100) * 180)
 const needle = computed(() => {
   const rad = (angleDeg.value * Math.PI) / 180
