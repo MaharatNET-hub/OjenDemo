@@ -37,7 +37,7 @@ function logout() {
     <Transition :name="locale.dir === 'rtl' ? 'slide-rtl' : 'slide-ltr'">
       <aside
         v-if="open"
-        class="fixed inset-y-0 start-0 z-40 w-[280px] bg-[#0d1526] border-e border-ojen-border flex flex-col"
+        class="fixed inset-y-0 start-0 z-40 w-[280px] bg-ojen-panel border-e border-ojen-border flex flex-col"
       >
         <div class="flex items-center justify-between px-5 py-5 border-b border-ojen-border">
           <span class="font-semibold">{{ ql.companyName }}</span>
@@ -57,7 +57,7 @@ function logout() {
             class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition"
             :class="
               $route.path === link.to
-                ? 'bg-ojen-gold text-ojen-bg'
+                ? 'bg-ojen-gold text-ojen-ink'
                 : 'text-ojen-text hover:bg-ojen-panel-light'
             "
             @click="emit('close')"

@@ -250,7 +250,7 @@ const departmentKeyDrivers = (deptMetrics: Record<string, number>) =>
           <span class="text-ojen-gold">{{ locale.t('dashboard.for') }} {{ focusDeptName }}</span>
         </h2>
         <button
-          class="rounded-md bg-ojen-gold text-ojen-bg text-sm font-semibold px-4 py-2 hover:bg-ojen-gold-light transition shrink-0"
+          class="rounded-md bg-ojen-gold text-ojen-ink text-sm font-semibold px-4 py-2 hover:bg-ojen-gold-light transition shrink-0"
           @click="handleAction({ titleKey: 'dashboard.askForAdvice' })"
         >
           {{ locale.t('dashboard.askForAdvice') }}

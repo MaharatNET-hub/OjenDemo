@@ -28,7 +28,7 @@ const needle = computed(() => {
     <path
       d="M 14 100 A 86 86 0 0 1 186 100"
       fill="none"
-      :stroke="locked ? '#2a3350' : 'url(#gaugeGrad)'"
+      :stroke="locked ? 'var(--color-ojen-border)' : 'url(#gaugeGrad)'"
       stroke-width="12"
       stroke-linecap="round"
     />
@@ -38,11 +38,11 @@ const needle = computed(() => {
         y1="100"
         :x2="needle.x"
         :y2="needle.y"
-        stroke="#e7e9f0"
+        stroke="var(--color-ojen-text)"
         stroke-width="3"
         stroke-linecap="round"
       />
-      <circle cx="100" cy="100" r="6" fill="#e7e9f0" />
+      <circle cx="100" cy="100" r="6" fill="var(--color-ojen-text)" />
     </template>
   </svg>
 </template>

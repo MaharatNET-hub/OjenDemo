@@ -107,7 +107,7 @@ const bookingStatusKey: Record<string, string> = {
               <input v-model="form.phone" class="w-full rounded-md bg-ojen-bg border border-ojen-border px-3 py-2 text-sm" />
             </div>
             <div class="flex gap-2">
-              <button class="flex-1 rounded-md bg-ojen-gold text-ojen-bg text-sm font-semibold py-2" @click="saveEdit">
+              <button class="flex-1 rounded-md bg-ojen-gold text-ojen-ink text-sm font-semibold py-2" @click="saveEdit">
                 {{ locale.t('profile.save') }}
               </button>
               <button class="flex-1 rounded-md border border-ojen-border text-sm py-2" @click="editing = false">
