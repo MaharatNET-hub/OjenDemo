@@ -22,7 +22,7 @@ void props
   >
     <span
       v-if="option.mostEffective"
-      class="absolute -top-3 end-4 rounded bg-ojen-gold text-ojen-bg text-[10px] font-bold px-2 py-1"
+      class="absolute -top-3 end-4 rounded bg-ojen-gold text-ojen-ink text-[10px] font-bold px-2 py-1"
     >
       {{ locale.t('improvement.mostEffective') }}
     </span>
@@ -88,7 +88,7 @@ void props
         class="w-full rounded-md py-2.5 text-sm font-semibold transition"
         :class="
           option.mostEffective
-            ? 'bg-ojen-gold text-ojen-bg hover:bg-ojen-gold-light'
+            ? 'bg-ojen-gold text-ojen-ink hover:bg-ojen-gold-light'
             : 'border border-ojen-border hover:border-ojen-gold hover:text-ojen-gold'
         "
         @click="emit('action', option)"

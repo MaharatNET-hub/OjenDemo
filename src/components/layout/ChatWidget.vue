@@ -10,13 +10,13 @@ const locale = useLocaleStore()
 <template>
   <div class="fixed bottom-6 end-6 z-30 flex items-center gap-3">
     <button
-      class="hidden sm:flex items-center gap-2 rounded-full bg-white text-ojen-bg text-sm font-medium px-4 py-2.5 shadow-lg hover:shadow-xl transition"
+      class="hidden sm:flex items-center gap-2 rounded-full bg-white text-ojen-ink border border-ojen-border text-sm font-medium px-4 py-2.5 shadow-lg hover:shadow-xl transition"
       @click="open = !open"
     >
       {{ locale.t('chat.chatWithUs') }} 👋
     </button>
     <button
-      class="w-12 h-12 rounded-full bg-ojen-gold text-ojen-bg flex items-center justify-center shadow-lg hover:bg-ojen-gold-light transition"
+      class="w-12 h-12 rounded-full bg-ojen-gold text-ojen-ink flex items-center justify-center shadow-lg hover:bg-ojen-gold-light transition"
       @click="open = !open"
     >
       <Icon name="chat" class="w-5 h-5" />

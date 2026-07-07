@@ -68,7 +68,7 @@ const genderKey = (gender: string) => (gender === 'Male' ? 'employees.male' : 'e
           @keydown.enter.prevent="sendLinks"
         />
         <button
-          class="rounded-md bg-ojen-gold text-ojen-bg font-semibold px-5 py-2.5 text-sm hover:bg-ojen-gold-light transition"
+          class="rounded-md bg-ojen-gold text-ojen-ink font-semibold px-5 py-2.5 text-sm hover:bg-ojen-gold-light transition"
           @click="sendLinks"
         >
           {{ locale.t('employees.sendLinks') }}

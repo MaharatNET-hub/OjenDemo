@@ -4,10 +4,12 @@ import { RouterLink } from 'vue-router'
 import Icon from '@/components/Icon.vue'
 import { useQlStore } from '@/stores/ql'
 import { useLocaleStore } from '@/stores/locale'
+import { useThemeStore } from '@/stores/theme'
 
 const emit = defineEmits<{ 'toggle-sidebar': [] }>()
 const ql = useQlStore()
 const locale = useLocaleStore()
+const theme = useThemeStore()
 
 const showNotifications = ref(false)
 const pendingCount = computed(() => ql.invitations.filter((i) => i.status === 'pending').length)
@@ -30,6 +32,14 @@ const pendingCount = computed(() => ql.invitations.filter((i) => i.status === 'p
       </nav>
 
       <div class="flex items-center gap-2 sm:gap-3">
+        <button
+          class="w-9 h-9 flex items-center justify-center rounded-full border border-ojen-border hover:border-ojen-gold"
+          :title="theme.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+          @click="theme.toggleTheme"
+        >
+          <Icon :name="theme.theme === 'dark' ? 'sun' : 'moon'" class="w-4 h-4" />
+        </button>
+
         <button
           class="hidden sm:flex w-9 h-9 items-center justify-center rounded-full border border-ojen-border text-xs font-semibold hover:border-ojen-gold"
           @click="locale.toggleLocale"

@@ -4,11 +4,14 @@ import { useRouter } from 'vue-router'
 import { ALL_DIMENSIONS, surveyQuestion, answersToPercent } from '@/data/qlEngine'
 import { DEPARTMENTS, useQlStore } from '@/stores/ql'
 import { useLocaleStore } from '@/stores/locale'
+import { useThemeStore } from '@/stores/theme'
+import Icon from '@/components/Icon.vue'
 import type { Dimension } from '@/types'
 
 const props = defineProps<{ token: string }>()
 const ql = useQlStore()
 const locale = useLocaleStore()
+const theme = useThemeStore()
 const router = useRouter()
 
 const invitation = computed(() => ql.findInvitation(props.token))
@@ -57,12 +60,20 @@ function goToDashboard() {
 
 <template>
   <div class="min-h-screen bg-ojen-bg px-4 py-10 relative">
-    <button
-      class="absolute top-4 end-4 w-9 h-9 flex items-center justify-center rounded-full border border-ojen-border text-xs font-semibold hover:border-ojen-gold"
-      @click="locale.toggleLocale"
-    >
-      {{ locale.locale === 'ar' ? 'EN' : 'AR' }}
-    </button>
+    <div class="absolute top-4 end-4 flex items-center gap-2">
+      <button
+        class="w-9 h-9 flex items-center justify-center rounded-full border border-ojen-border hover:border-ojen-gold"
+        @click="theme.toggleTheme"
+      >
+        <Icon :name="theme.theme === 'dark' ? 'sun' : 'moon'" class="w-4 h-4" />
+      </button>
+      <button
+        class="w-9 h-9 flex items-center justify-center rounded-full border border-ojen-border text-xs font-semibold hover:border-ojen-gold"
+        @click="locale.toggleLocale"
+      >
+        {{ locale.locale === 'ar' ? 'EN' : 'AR' }}
+      </button>
+    </div>
     <div class="mx-auto max-w-2xl">
       <div class="mb-6 text-center">
         <div class="inline-block border border-ojen-gold/60 rounded px-3 py-1 text-ojen-gold tracking-[0.2em] font-semibold">
@@ -85,7 +96,7 @@ function goToDashboard() {
           {{ locale.t('survey.recalculated', { department: locale.department(department) }) }}
         </p>
         <button
-          class="rounded-md bg-ojen-gold text-ojen-bg font-semibold px-5 py-2.5 text-sm hover:bg-ojen-gold-light transition"
+          class="rounded-md bg-ojen-gold text-ojen-ink font-semibold px-5 py-2.5 text-sm hover:bg-ojen-gold-light transition"
           @click="goToDashboard"
         >
           {{ locale.t('survey.viewDashboard') }}
@@ -132,7 +143,7 @@ function goToDashboard() {
                 class="rounded-md border py-2 text-[11px] leading-tight transition"
                 :class="
                   answers[dim.key] === n
-                    ? 'bg-ojen-gold text-ojen-bg border-ojen-gold font-semibold'
+                    ? 'bg-ojen-gold text-ojen-ink border-ojen-gold font-semibold'
                     : 'border-ojen-border text-ojen-muted hover:border-ojen-gold'
                 "
                 @click="answers[dim.key] = n"
@@ -151,7 +162,7 @@ function goToDashboard() {
 
         <button
           type="submit"
-          class="w-full rounded-md bg-ojen-gold text-ojen-bg font-semibold py-3 text-sm hover:bg-ojen-gold-light transition"
+          class="w-full rounded-md bg-ojen-gold text-ojen-ink font-semibold py-3 text-sm hover:bg-ojen-gold-light transition"
         >
           {{ locale.t('survey.submit') }}
         </button>

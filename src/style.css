@@ -9,6 +9,18 @@
   --color-ojen-gold-light: #f5c563;
   --color-ojen-text: #e7e9f0;
   --color-ojen-muted: #8891a7;
+  /* Fixed dark navy used for text on gold/light surfaces — stays constant across themes. */
+  --color-ojen-ink: #0a0e1a;
+}
+
+/* Light theme override: swaps the surface/text tokens, leaves the gold accent and ojen-ink untouched. */
+:root[data-theme='light'] {
+  --color-ojen-bg: #f4f6fb;
+  --color-ojen-panel: #ffffff;
+  --color-ojen-panel-light: #eef1f8;
+  --color-ojen-border: #dde3ee;
+  --color-ojen-text: #131a2c;
+  --color-ojen-muted: #5b6478;
 }
 
 html,
@@ -22,6 +34,7 @@ body {
   background: var(--color-ojen-bg);
   color: var(--color-ojen-text);
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::-webkit-scrollbar {

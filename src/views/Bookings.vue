@@ -76,7 +76,7 @@ const upcomingCount = computed(() => ql.bookings.filter((b) => b.status === 'Upc
           </div>
         </div>
         <button
-          class="rounded-md bg-ojen-gold text-ojen-bg font-semibold px-4 py-2.5 text-sm hover:bg-ojen-gold-light transition"
+          class="rounded-md bg-ojen-gold text-ojen-ink font-semibold px-4 py-2.5 text-sm hover:bg-ojen-gold-light transition"
           @click="showForm = !showForm"
         >
           {{ showForm ? locale.t('bookings.cancel') : locale.t('bookings.newBooking') }}
@@ -114,7 +114,7 @@ const upcomingCount = computed(() => ql.bookings.filter((b) => b.status === 'Upc
             </select>
           </div>
         </div>
-        <button class="rounded-md bg-ojen-gold text-ojen-bg font-semibold px-5 py-2.5 text-sm hover:bg-ojen-gold-light transition" @click="createBooking">
+        <button class="rounded-md bg-ojen-gold text-ojen-ink font-semibold px-5 py-2.5 text-sm hover:bg-ojen-gold-light transition" @click="createBooking">
           {{ locale.t('bookings.confirmBooking') }}
         </button>
       </div>
