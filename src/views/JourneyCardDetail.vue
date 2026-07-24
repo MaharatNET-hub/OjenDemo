@@ -65,16 +65,20 @@ function goBack() {
           <Icon name="bell" class="w-4 h-4 text-ojen-muted" />
         </div>
 
-        <p class="text-xs text-ojen-gold font-semibold tracking-widest mb-1">
-          {{ locale.t('journeyCard.dayOfTotal', { day, total: journey.totalDays }) }}
-        </p>
-        <div class="flex items-center gap-3 mb-2">
-          <span class="w-10 h-10 rounded-lg bg-ojen-gold/20 flex items-center justify-center shrink-0">
-            <Icon :name="template.icon" class="w-5 h-5 text-ojen-gold" />
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <p class="text-xs text-ojen-gold font-semibold tracking-widest mb-1">
+              {{ locale.t('journeyCard.dayOfTotal', { day, total: journey.totalDays }) }}
+            </p>
+            <h1 class="text-2xl font-bold mb-2">{{ locale.t(template.titleKey) }}</h1>
+            <p class="text-sm text-ojen-muted max-w-[220px]">{{ locale.t(template.descriptionKey) }}</p>
+          </div>
+          <span
+            class="w-16 h-16 rounded-full bg-ojen-gold/10 border border-ojen-gold/40 flex items-center justify-center shrink-0"
+          >
+            <Icon :name="template.icon" class="w-7 h-7 text-ojen-gold" />
           </span>
-          <h1 class="text-xl font-bold">{{ locale.t(template.titleKey) }}</h1>
         </div>
-        <p class="text-sm text-ojen-muted mb-6">{{ locale.t(template.descriptionKey) }}</p>
 
         <p class="text-xs text-ojen-gold font-semibold tracking-widest mb-2">
           {{ locale.t('journeyCard.todaysPractice') }}
@@ -94,7 +98,7 @@ function goBack() {
               @click="journey.toggleChecklistItem(day, i)"
             >
               <span
-                class="w-5 h-5 rounded border flex items-center justify-center shrink-0"
+                class="w-5 h-5 rounded-full border flex items-center justify-center shrink-0"
                 :class="card.checkedItems.includes(i) ? 'bg-ojen-gold border-ojen-gold' : 'border-ojen-border'"
               >
                 <Icon v-if="card.checkedItems.includes(i)" name="check" class="w-3.5 h-3.5 text-ojen-ink" />
