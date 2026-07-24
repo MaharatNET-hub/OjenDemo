@@ -17,6 +17,7 @@ const links = [
   { to: '/en/profile', labelKey: 'sidebar.corporateProfile', icon: 'user' },
   { to: '/en/employees', labelKey: 'sidebar.employees', icon: 'lock' },
   { to: '/en/profile/ql-overview', labelKey: 'sidebar.qlDashboard', icon: 'briefcase' },
+  { to: '/en/journeys', labelKey: 'sidebar.journeys', icon: 'rocket' },
   { to: '/en/subscriptions', labelKey: 'sidebar.subscriptions', icon: 'credit-card' },
   { to: '/en/bookings', labelKey: 'sidebar.bookings', icon: 'briefcase' },
   { to: '/en/payments', labelKey: 'sidebar.payments', icon: 'credit-card' },

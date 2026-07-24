@@ -45,6 +45,22 @@ const router = createRouter({
       component: () => import('@/views/Payments.vue'),
     },
     {
+      path: '/en/journeys',
+      name: 'journeys',
+      component: () => import('@/views/JourneysCatalog.vue'),
+    },
+    {
+      path: '/en/profile/active-package',
+      name: 'active-package',
+      component: () => import('@/views/ActivePackage.vue'),
+    },
+    {
+      path: '/en/profile/active-package/card/:day',
+      name: 'journey-card',
+      component: () => import('@/views/JourneyCardDetail.vue'),
+      props: (route) => ({ day: Number(route.params.day) }),
+    },
+    {
       path: '/survey/:token',
       name: 'survey',
       component: () => import('@/views/SurveyForm.vue'),
