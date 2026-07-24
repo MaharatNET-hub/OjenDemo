@@ -5,6 +5,7 @@ import Icon from '@/components/Icon.vue'
 import { templateForDay } from '@/data/journeyContent'
 import { useJourneyStore } from '@/stores/journey'
 import { useLocaleStore } from '@/stores/locale'
+import { downloadTextFile, toCsvRow } from '@/utils/downloadFile'
 
 const props = defineProps<{ day: number }>()
 const journey = useJourneyStore()
@@ -14,6 +15,32 @@ const router = useRouter()
 const card = computed(() => journey.cards.find((c) => c.day === props.day) ?? null)
 const status = computed(() => (card.value ? journey.statusFor(card.value) : 'locked'))
 const template = computed(() => templateForDay(props.day))
+
+const viewableDays = computed(() =>
+  journey.cards.filter((c) => journey.statusFor(c) !== 'locked').map((c) => c.day),
+)
+const prevDay = computed(() => {
+  const candidates = viewableDays.value.filter((d) => d < props.day)
+  return candidates.length ? Math.max(...candidates) : null
+})
+const nextDay = computed(() => {
+  const candidates = viewableDays.value.filter((d) => d > props.day)
+  return candidates.length ? Math.min(...candidates) : null
+})
+
+function downloadThisCard() {
+  if (!card.value) return
+  const tpl = template.value
+  const checklist = tpl.checklistKeys
+    .map((key, i) => `${card.value!.checkedItems.includes(i) ? '[x]' : '[ ]'} ${locale.t(key)}`)
+    .join(' | ')
+  const coach = card.value.coachMessages.map((m) => `${m.from}: ${m.text}`).join(' | ')
+  const rows = [
+    toCsvRow(['Day', 'Status', 'Exercise', 'Checklist', 'Reflection', 'Coach Messages', 'Completed At']),
+    toCsvRow([card.value.day, status.value, locale.t(tpl.titleKey), checklist, card.value.reflection, coach, card.value.completedAt ?? '']),
+  ]
+  downloadTextFile(`ojen-journey-day-${card.value.day}-answers.csv`, rows.join(''))
+}
 
 onMounted(() => {
   if (card.value && (status.value === 'available' || status.value === 'expired')) {
@@ -42,12 +69,35 @@ function goBack() {
 
 <template>
   <div class="mx-auto max-w-2xl px-4 sm:px-6 py-6 space-y-5">
-    <button
-      class="text-sm text-ojen-muted hover:text-ojen-gold flex items-center gap-1.5 transition"
-      @click="goBack"
-    >
-      <Icon name="chevron" class="w-4 h-4" :class="locale.dir === 'rtl' ? '-rotate-90' : 'rotate-90'" /> {{ locale.t('journeyCard.backToActivePackage') }}
-    </button>
+    <div class="flex items-center justify-between gap-3 flex-wrap">
+      <button
+        class="text-sm text-ojen-muted hover:text-ojen-gold flex items-center gap-1.5 transition"
+        @click="goBack"
+      >
+        <Icon name="chevron" class="w-4 h-4" :class="locale.dir === 'rtl' ? '-rotate-90' : 'rotate-90'" /> {{ locale.t('journeyCard.backToActivePackage') }}
+      </button>
+
+      <div v-if="card" class="flex items-center gap-2">
+        <button
+          type="button"
+          class="w-8 h-8 rounded-full border border-ojen-border flex items-center justify-center disabled:opacity-30 hover:border-ojen-gold hover:text-ojen-gold transition"
+          :disabled="prevDay === null"
+          :title="locale.t('journeyCard.viewPreviousDay')"
+          @click="prevDay !== null && router.push(`/en/profile/active-package/card/${prevDay}`)"
+        >
+          <Icon name="chevron" class="w-3.5 h-3.5" :class="locale.dir === 'rtl' ? '-rotate-90' : 'rotate-90'" />
+        </button>
+        <button
+          type="button"
+          class="w-8 h-8 rounded-full border border-ojen-border flex items-center justify-center disabled:opacity-30 hover:border-ojen-gold hover:text-ojen-gold transition"
+          :disabled="nextDay === null"
+          :title="locale.t('journeyCard.viewNextDay')"
+          @click="nextDay !== null && router.push(`/en/profile/active-package/card/${nextDay}`)"
+        >
+          <Icon name="chevron" class="w-3.5 h-3.5" :class="locale.dir === 'rtl' ? 'rotate-90' : '-rotate-90'" />
+        </button>
+      </div>
+    </div>
 
     <div v-if="!journey.enrollment || !card" class="rounded-xl border border-ojen-border bg-ojen-panel p-8 text-center">
       <p class="text-ojen-muted">{{ locale.t('activePackage.noEnrollmentMessage') }}</p>
@@ -62,8 +112,23 @@ function goBack() {
       <div class="rounded-xl border border-ojen-gold/50 bg-ojen-panel p-6">
         <div class="flex items-center justify-between mb-4">
           <span class="text-ojen-gold tracking-[0.2em] font-semibold text-sm">OJEN JOURNEY</span>
-          <Icon name="bell" class="w-4 h-4 text-ojen-muted" />
+          <div class="flex items-center gap-3">
+            <button
+              v-if="card.opened"
+              type="button"
+              class="text-ojen-muted hover:text-ojen-gold transition"
+              :title="locale.t('journeyCard.downloadAnswers')"
+              @click="downloadThisCard"
+            >
+              <Icon name="download" class="w-4 h-4" />
+            </button>
+            <Icon name="bell" class="w-4 h-4 text-ojen-muted" />
+          </div>
         </div>
+
+        <p v-if="status === 'completed'" class="text-xs text-ojen-gold tracking-widest mb-4 flex items-center gap-1.5">
+          <Icon name="eye" class="w-3.5 h-3.5" /> {{ locale.t('journeyCard.viewingYourAnswers') }}
+        </p>
 
         <div class="flex items-start justify-between gap-4 mb-6">
           <div>

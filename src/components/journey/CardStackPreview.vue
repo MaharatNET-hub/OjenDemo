@@ -9,14 +9,21 @@ const props = defineProps<{
   dayLabel: string
   statusLabel: string
   emptyText: string
+  to?: string
 }>()
 
 const fanLayers = computed(() => Math.max(0, Math.min(4, props.count - 1)))
 const badgeCount = computed(() => Math.max(0, props.count - (fanLayers.value + 1)))
+const rootTag = computed(() => (props.to ? 'RouterLink' : 'div'))
 </script>
 
 <template>
-  <div class="relative h-[220px] w-[170px]">
+  <component
+    :is="rootTag"
+    :to="to"
+    class="relative h-[220px] w-[170px]"
+    :class="to ? 'block transition hover:opacity-90' : ''"
+  >
     <template v-if="count === 0">
       <div
         class="absolute inset-0 rounded-xl border-2 border-dashed border-ojen-border flex items-center justify-center text-center px-4"
@@ -52,5 +59,5 @@ const badgeCount = computed(() => Math.max(0, props.count - (fanLayers.value + 1
         </span>
       </div>
     </template>
-  </div>
+  </component>
 </template>

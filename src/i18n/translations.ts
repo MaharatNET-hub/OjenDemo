@@ -369,7 +369,9 @@ const en: Record<string, string> = {
   'activePackage.noEnrollmentMessage': 'Browse our guided journeys and subscribe to start your first card.',
   'activePackage.browseJourneys': 'Browse Journeys',
   'activePackage.dayLabel': 'DAY',
-  'activePackage.exportedToast': 'Exported (demo action — no file is generated in this build).',
+  'activePackage.exportedToast': 'Your CSV file has been downloaded.',
+  'activePackage.nothingToExport': 'No answers yet — open a card and complete it first.',
+  'activePackage.tapToViewAnswers': 'Tap to view answers',
   'activePackage.demoAdvanceDay': 'Demo: advance to next day (real cards unlock once per real day)',
 
   'badges.firstStep': 'First Step',
@@ -437,6 +439,10 @@ const en: Record<string, string> = {
   'journeyCard.cardLocked': 'This card is still locked.',
   'journeyCard.coachAutoReply': "Thanks for sharing! I'm proud of you for showing up today — keep it going.",
   'journeyCard.yourCoach': 'Your Coach',
+  'journeyCard.viewPreviousDay': 'View previous day',
+  'journeyCard.viewNextDay': 'View next day',
+  'journeyCard.downloadAnswers': 'Download this day’s answers',
+  'journeyCard.viewingYourAnswers': "Viewing your answers",
 
   'toast.subscribed': "You're enrolled! Day 1 is ready for you.",
 }
@@ -797,7 +803,9 @@ const ar: Record<string, string> = {
   'activePackage.noEnrollmentMessage': 'تصفح رحلاتنا الموجّهة واشترك لتبدأ بطاقتك الأولى.',
   'activePackage.browseJourneys': 'تصفح الرحلات',
   'activePackage.dayLabel': 'اليوم',
-  'activePackage.exportedToast': 'تم التصدير (إجراء تجريبي — لا يتم إنشاء ملف فعلي في هذا الإصدار).',
+  'activePackage.exportedToast': 'تم تحميل ملف CSV.',
+  'activePackage.nothingToExport': 'لا توجد إجابات بعد — افتح بطاقة وأكملها أولاً.',
+  'activePackage.tapToViewAnswers': 'اضغط لعرض الإجابات',
   'activePackage.demoAdvanceDay': 'تجريبي: التقدم لليوم التالي (البطاقات الحقيقية تُفتح مرة واحدة يوميًا)',
 
   'badges.firstStep': 'الخطوة الأولى',
@@ -865,6 +873,10 @@ const ar: Record<string, string> = {
   'journeyCard.cardLocked': 'هذه البطاقة لا تزال مقفلة.',
   'journeyCard.coachAutoReply': 'شكرًا لمشاركتك! أنا فخور فيك لأنك واظبت اليوم — استمر هيك.',
   'journeyCard.yourCoach': 'مدربك',
+  'journeyCard.viewPreviousDay': 'عرض اليوم السابق',
+  'journeyCard.viewNextDay': 'عرض اليوم التالي',
+  'journeyCard.downloadAnswers': 'تحميل إجابات هذا اليوم',
+  'journeyCard.viewingYourAnswers': 'تعرض إجاباتك',
 
   'toast.subscribed': 'تم تسجيلك! اليوم الأول جاهز لك.',
 }

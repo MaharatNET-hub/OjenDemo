@@ -5,6 +5,7 @@ import CardStackPreview from '@/components/journey/CardStackPreview.vue'
 import { BADGES, templateForDay } from '@/data/journeyContent'
 import { useJourneyStore } from '@/stores/journey'
 import { useLocaleStore } from '@/stores/locale'
+import { downloadTextFile, toCsvRow } from '@/utils/downloadFile'
 
 const journey = useJourneyStore()
 const locale = useLocaleStore()
@@ -17,10 +18,42 @@ function showToast(message: string) {
   setTimeout(() => (toastMessage.value = null), 2500)
 }
 
+const completedCardLink = computed(() =>
+  journey.completedCount > 0 && journey.lastCompletedCard
+    ? `/en/profile/active-package/card/${journey.lastCompletedCard.day}`
+    : undefined,
+)
+
 function exportSurveyAnswers() {
+  const withReflection = journey.cards.filter((c) => c.reflection.trim())
+  if (!withReflection.length) {
+    showToast(locale.t('activePackage.nothingToExport'))
+    return
+  }
+  const rows = [toCsvRow(['Day', 'Exercise', 'Reflection'])]
+  withReflection.forEach((c) => {
+    rows.push(toCsvRow([c.day, locale.t(templateForDay(c.day).titleKey), c.reflection]))
+  })
+  downloadTextFile(`ojen-journey-reflections-${journey.enrollment?.id ?? 'demo'}.csv`, rows.join(''))
   showToast(locale.t('activePackage.exportedToast'))
 }
+
 function exportCardAnswers() {
+  const withAnswers = journey.cards.filter((c) => c.opened || c.completedAt)
+  if (!withAnswers.length) {
+    showToast(locale.t('activePackage.nothingToExport'))
+    return
+  }
+  const rows = [toCsvRow(['Day', 'Status', 'Exercise', 'Checklist', 'Reflection', 'Coach Messages', 'Completed At'])]
+  withAnswers.forEach((c) => {
+    const tpl = templateForDay(c.day)
+    const checklist = tpl.checklistKeys
+      .map((key, i) => `${c.checkedItems.includes(i) ? '[x]' : '[ ]'} ${locale.t(key)}`)
+      .join(' | ')
+    const coach = c.coachMessages.map((m) => `${m.from}: ${m.text}`).join(' | ')
+    rows.push(toCsvRow([c.day, journey.statusFor(c), locale.t(tpl.titleKey), checklist, c.reflection, coach, c.completedAt ?? '']))
+  })
+  downloadTextFile(`ojen-journey-card-answers-${journey.enrollment?.id ?? 'demo'}.csv`, rows.join(''))
   showToast(locale.t('activePackage.exportedToast'))
 }
 
@@ -159,10 +192,18 @@ const streakMotivationKey = computed(() =>
                 :day-label="locale.t('activePackage.dayLabel')"
                 :status-label="locale.t('activePackage.complete').toUpperCase()"
                 :empty-text="locale.t('activePackage.completedCardsWillStack')"
+                :to="completedCardLink"
               />
               <p class="text-[11px] text-ojen-muted mt-3">
                 {{ locale.t('activePackage.daysComplete', { completed: journey.completedCount, total: journey.totalDays }) }}
               </p>
+              <RouterLink
+                v-if="completedCardLink"
+                :to="completedCardLink"
+                class="block text-[11px] text-ojen-gold mt-1 hover:underline"
+              >
+                {{ locale.t('activePackage.tapToViewAnswers') }}
+              </RouterLink>
             </div>
 
             <div class="text-center flex flex-col items-center">
@@ -318,6 +359,8 @@ const streakMotivationKey = computed(() =>
             :day-label="locale.t('activePackage.dayLabel')"
             :status-label="locale.t('activePackage.complete').toUpperCase()"
             :empty-text="locale.t('activePackage.completedCardsWillStack')"
+            :to="completedCardLink"
+            @click="showAchievements = false"
           />
         </div>
       </aside>
